@@ -1,7 +1,26 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:restauranteapp/database/appdatabase.dart';
+import 'package:restauranteapp/model/User.dart';
 
-class Register extends StatelessWidget {
+class Register extends StatefulWidget {
+  @override
+  _RegisterState createState() => _RegisterState();
+}
+
+class _RegisterState extends State<Register> {
+  final TextEditingController _controladorNome = TextEditingController();
+
+  final TextEditingController _controladorEmail = TextEditingController();
+
+  final TextEditingController _controladorEndereco = TextEditingController();
+
+  final TextEditingController _controladorCpf = TextEditingController();
+
+  final TextEditingController _controladorTelefone = TextEditingController();
+
+  final TextEditingController _controladorSenha = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -9,66 +28,91 @@ class Register extends StatelessWidget {
       body: SingleChildScrollView(
         child: Column(
           children: <Widget>[
-            InputText(
-              labelText: 'Nome',
-              hintText: 'Daniel',
-              keyBoardType: TextInputType.text,
+            TextField(
+              controller: _controladorNome,
+              keyboardType: TextInputType.text,
+              style: TextStyle(
+                fontSize: 24,
+              ),
+              decoration: InputDecoration(
+                labelText: 'Nome',
+                hintText: 'Daniel',
+              ),
             ),
-            InputText(
-              labelText: 'Email',
-              hintText: 'nome@email.com',
-              keyBoardType: TextInputType.emailAddress,
+            TextField(
+              controller: _controladorEmail,
+              keyboardType: TextInputType.emailAddress,
+              style: TextStyle(
+                fontSize: 24,
+              ),
+              decoration: InputDecoration(
+                labelText: 'Email',
+                hintText: 'nome@email.com',
+              ),
             ),
-            InputText(
-              labelText: 'Endereço',
-              hintText: 'Rua fulana, numero 200',
-              keyBoardType: TextInputType.text,
+            TextField(
+              controller: _controladorEndereco,
+              keyboardType: TextInputType.text,
+              style: TextStyle(
+                fontSize: 24,
+              ),
+              decoration: InputDecoration(
+                labelText: 'Endereço',
+                hintText: 'Rua tal, Numero 2200',
+              ),
             ),
-            InputText(
-              labelText: 'CPF',
-              hintText: '123.456.789-69',
-              keyBoardType: TextInputType.number,
+            TextField(
+              controller: _controladorCpf,
+              keyboardType: TextInputType.number,
+              style: TextStyle(
+                fontSize: 24,
+              ),
+              decoration: InputDecoration(
+                labelText: 'CPF',
+                hintText: '123.456.789-69',
+              ),
             ),
-            InputText(
-              labelText: 'Telefone',
-              hintText: '(81)98654213',
-              keyBoardType: TextInputType.number,
+            TextField(
+              controller: _controladorTelefone,
+              keyboardType: TextInputType.number,
+              style: TextStyle(
+                fontSize: 24,
+              ),
+              decoration: InputDecoration(
+                labelText: "Telefone",
+                hintText: '(81)996541235',
+              ),
             ),
-            
+            TextField(
+              obscureText: true,
+              controller: _controladorSenha,
+              keyboardType: TextInputType.number,
+              style: TextStyle(
+                fontSize: 24,
+              ),
+              decoration: InputDecoration(
+                labelText: "Senha",
+                hintText: '....',
+              ),
+            ),
             RaisedButton(
               child: Text("Finalizar Cadastro"),
               color: Colors.indigo[900],
               textColor: Colors.white,
-              onPressed: (){},  
-              )
+              onPressed: () {
+                final String name = _controladorNome.text;
+                final String email = _controladorEmail.text;
+                final String address = _controladorEndereco.text;
+                final String cpf = _controladorCpf.text;
+                final String fone = _controladorTelefone.text;
+                final String password = _controladorSenha.text;
+                final User newUser = User(name, email, address, cpf, fone, password);
+                save(newUser);
+                findAll();
+                Navigator.pop(context);
+              },
+            )
           ],
-        ),
-      ),
-    );
-  }
-}
-
-
-class InputText extends StatelessWidget {
-  final String labelText;
-  final String hintText;
-  final TextInputType keyBoardType;
-  final TextEditingController _inputController = TextEditingController();
-  InputText({@required this.labelText, this.hintText, this.keyBoardType});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: TextField(
-        controller: _inputController,
-        keyboardType: keyBoardType,
-        style: TextStyle(
-          fontSize: 24,
-        ),
-        decoration: InputDecoration(
-          labelText: labelText,
-          hintText: hintText,
         ),
       ),
     );

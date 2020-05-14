@@ -22,11 +22,10 @@ class LoginScreen extends StatelessWidget {
               mainAxisAlignment: MainAxisAlignment.center,
               crossAxisAlignment: CrossAxisAlignment.center,
               children: <Widget>[
-                //Image.asset('images/mulher_cozinhando.jpg'),
                 Text(
                   'Bem vindo ao RestauranteApp',
                   style: TextStyle(
-                    color: Colors.indigo[900],
+                    color: Colors.black,
                     fontSize: 24,
                   ),
                 ),
@@ -91,8 +90,9 @@ class InputLogin extends StatelessWidget {
         width: 300,
         child: TextField(
           obscureText: obscureText,
-          style: TextStyle(fontSize: 24),
+          style: TextStyle(fontSize: 24, color: Colors.black),
           decoration: InputDecoration(
+            fillColor: Colors.white,
             icon: Icon(icon),
             labelText: labelText,
           ),
