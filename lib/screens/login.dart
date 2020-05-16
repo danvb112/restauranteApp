@@ -1,8 +1,17 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:restauranteapp/screens/register.dart';
+import 'package:restauranteapp/database/appdatabase.dart';
 
-class LoginScreen extends StatelessWidget {
+class LoginScreen extends StatefulWidget {
+  @override
+  _LoginScreenState createState() => _LoginScreenState();
+}
+
+class _LoginScreenState extends State<LoginScreen> {
+  TextEditingController _loginController = TextEditingController();
+  TextEditingController _passwordController = TextEditingController();
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -10,12 +19,9 @@ class LoginScreen extends StatelessWidget {
       body: SingleChildScrollView(
         child: DecoratedBox(
           decoration: BoxDecoration(
-            image: DecorationImage(
-              image: AssetImage('images/mulher_cozinhando.jpg'),
-              fit: BoxFit.cover
-            
-            )
-          ),
+              image: DecorationImage(
+                  image: AssetImage('images/mulher_cozinhando.jpg'),
+                  fit: BoxFit.cover)),
           child: Container(
             height: 700,
             child: Column(
@@ -29,15 +35,36 @@ class LoginScreen extends StatelessWidget {
                     fontSize: 24,
                   ),
                 ),
-                InputLogin(
-                  labelText: 'Login',
-                  obscureText: false,
-                  icon: Icons.person,
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    width: 300,
+                    child: TextField(
+                      controller: _loginController,
+                      style: TextStyle(fontSize: 24, color: Colors.black),
+                      decoration: InputDecoration(
+                        fillColor: Colors.white,
+                        icon: Icon(Icons.person),
+                        labelText: 'Login',
+                      ),
+                    ),
+                  ),
                 ),
-                InputLogin(
-                  labelText: 'Senha',
-                  obscureText: true,
-                  icon: Icons.lock,
+                Padding(
+                  padding: const EdgeInsets.all(8.0),
+                  child: SizedBox(
+                    width: 300,
+                    child: TextField(
+                      controller: _passwordController,
+                      obscureText: true,
+                      style: TextStyle(fontSize: 24, color: Colors.black),
+                      decoration: InputDecoration(
+                        fillColor: Colors.white,
+                        icon: Icon(Icons.lock),
+                        labelText: 'Senha',
+                      ),
+                    ),
+                  ),
                 ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.center,
@@ -48,7 +75,11 @@ class LoginScreen extends StatelessWidget {
                         child: Text('Confirmar'),
                         color: Colors.indigo[900],
                         textColor: Colors.white,
-                        onPressed: () {},
+                        onPressed: () {
+                          final String emailLogin = _loginController.text;
+                          final String passwordLogin = _passwordController.text;
+                          verificationLogin(emailLogin: emailLogin, passwordLogin: passwordLogin );       
+                        },
                       ),
                     ),
                     Padding(
@@ -75,29 +106,3 @@ class LoginScreen extends StatelessWidget {
   }
 }
 
-class InputLogin extends StatelessWidget {
-  final String labelText;
-  final bool obscureText;
-  final IconData icon;
-
-  InputLogin({@required this.labelText, this.obscureText, this.icon});
-
-  @override
-  Widget build(BuildContext context) {
-    return Padding(
-      padding: const EdgeInsets.all(8.0),
-      child: SizedBox(
-        width: 300,
-        child: TextField(
-          obscureText: obscureText,
-          style: TextStyle(fontSize: 24, color: Colors.black),
-          decoration: InputDecoration(
-            fillColor: Colors.white,
-            icon: Icon(icon),
-            labelText: labelText,
-          ),
-        ),
-      ),
-    );
-  }
-}
