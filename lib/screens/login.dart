@@ -1,7 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:restauranteapp/screens/register.dart';
-import 'package:restauranteapp/database/appdatabase.dart';
+import 'cardapioScreen.dart';
 
 class LoginScreen extends StatefulWidget {
   @override
@@ -78,7 +78,11 @@ class _LoginScreenState extends State<LoginScreen> {
                         onPressed: () {
                           final String emailLogin = _loginController.text;
                           final String passwordLogin = _passwordController.text;
-                          verificationLogin(emailLogin: emailLogin, passwordLogin: passwordLogin );       
+                          //verificationLogin(emailLogin: emailLogin, passwordLogin: passwordLogin );
+                          Navigator.push(context, MaterialPageRoute(builder: (context){
+                            return CardapioScreen(); 
+                          }));
+
                         },
                       ),
                     ),
