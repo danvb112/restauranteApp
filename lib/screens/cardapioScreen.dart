@@ -72,6 +72,7 @@ class _CardapioScreenState extends State<CardapioScreen> {
 
 }
 
+
 class _CardapioItem extends StatelessWidget {
   final Cardapio cardapio;
 

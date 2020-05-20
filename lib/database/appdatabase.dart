@@ -35,7 +35,6 @@ Map<String, dynamic> _toMap(User user) {
   return userMap;
 }
 
-
 Future<int> save(User user) async {
   final Database db = await getDatabase();
   final Map<String, dynamic> userMap = _toMap(user);
@@ -60,42 +59,32 @@ List<User> _toList(List<Map<String, dynamic>> result) {
   return users;
 }
 
-Future<bool> verificationLogin({emailLogin, passwordLogin}) async {
-  final List<Map<String, dynamic>> user = await findUserByEmail(emailLogin);
-  if(user.isNotEmpty){
-
+Future<bool> verificationLogin({String emailLogin, String passwordLogin}) async {
+  final Map<String, dynamic> user = await findUserByEmail(emailLogin);
+  if (user != null) {
+    bool resultCheck = checkPassword(user, passwordLogin);
+    print('$resultCheck');
+    return resultCheck;
   }
-  
+  print('false');
+  return false;
 }
 
-
-Future<List<Map<String, dynamic>>> findUserByEmail(String emailLogin) async{
+Future<Map<String, dynamic>> findUserByEmail(String emailLogin) async {
   final Database db = await getDatabase();
-  final List<Map<String, dynamic>> result = await db.rawQuery("SELECT * FROM login WHERE email = '$emailLogin'");
-  print('$result');
-  return result;
+  final List<Map<String, dynamic>> resultList =
+      await db.rawQuery("SELECT * FROM login WHERE email = '$emailLogin'");
+  if (resultList.isNotEmpty) {
+    final Map<String, dynamic> resultMap = resultList[0];
+    print('$resultMap');
+    return resultMap;
+  }
+  return null;
 }
 
-
-
-
-
-
-
-
-// final List<User> users = await findAll();
-
-//   for (User user in users) {
-//     final String emailDatabase = user.email;
-//     final String passwordDatabase = user.password;
-//     print('Email: $emailDatabase senha: $passwordDatabase');
-//     // if (emailLogin == emailDatabase) {
-//     //   if (passwordLogin == passwordDatabase) {
-//     //     print('true');
-//     //     return true;
-//     //   }
-//     // } else {
-//     //   print('false');
-//     //   return false;
-//     // }
-//   }
+bool checkPassword(Map<String, dynamic> user, passwordLogin) {
+  if (user['password'] == passwordLogin) {
+    return true;
+  }
+  return false;
+}

@@ -1,11 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:restauranteapp/components/dialogs.dart';
 import 'package:restauranteapp/database/appdatabase.dart';
 import 'package:restauranteapp/screens/login.dart';
 
 void main() {
   runApp(MyApp());
   findAll();
-  findUserByEmail('sandino@email.com');
+  findUserByEmail('falco@email.com');
 }
 
 class MyApp extends StatelessWidget {

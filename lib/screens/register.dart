@@ -1,5 +1,6 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:restauranteapp/components/dialogs.dart';
 import 'package:restauranteapp/database/appdatabase.dart';
 import 'package:restauranteapp/model/User.dart';
 
@@ -106,10 +107,15 @@ class _RegisterState extends State<Register> {
                 final String cpf = _controladorCpf.text;
                 final String fone = _controladorTelefone.text;
                 final String password = _controladorSenha.text;
-                final User newUser = User(name, email, address, cpf, fone, password);
-                save(newUser);
-                findAll();
-                Navigator.pop(context);
+                final User newUser =
+                    User(name, email, address, cpf, fone, password);
+                if (_verificationInputEmpty(newUser)) {
+                  save(newUser);
+                  findAll();
+                  Navigator.pop(context);
+                  return _showSucsessDialog(context);
+                }
+                return _showFaildRegisterDialog(context);
               },
             )
           ],
@@ -117,4 +123,41 @@ class _RegisterState extends State<Register> {
       ),
     );
   }
+}
+
+bool _verificationInputEmpty(User user) {
+  if (user.name.isNotEmpty) {
+    if (user.email.isNotEmpty) {
+      if (user.address.isNotEmpty) {
+        if (user.cpf.isNotEmpty) {
+          if (user.fone.isNotEmpty) {
+            if (user.password.isNotEmpty) {
+              return true;
+            }
+          }
+        }
+      }
+    }
+  }
+  print('false');
+  return false;
+}
+
+void _showSucsessDialog(BuildContext context) {
+  showDialog(
+      context: context,
+      builder: (contextDialog) {
+        return SucsessDialog();
+      });
+}
+
+
+void _showFaildRegisterDialog(BuildContext context){
+  showDialog(
+    context: context,
+    builder: (contextDialog){
+      return FaildRegisterDialog();
+    }
+  );
+
 }

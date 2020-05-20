@@ -1,5 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
+import 'package:restauranteapp/components/dialogs.dart';
+import 'package:restauranteapp/database/appdatabase.dart';
 import 'package:restauranteapp/screens/register.dart';
 import 'cardapioScreen.dart';
 
@@ -75,14 +77,15 @@ class _LoginScreenState extends State<LoginScreen> {
                         child: Text('Confirmar'),
                         color: Colors.indigo[900],
                         textColor: Colors.white,
-                        onPressed: () {
+                        onPressed: () async {
                           final String emailLogin = _loginController.text;
                           final String passwordLogin = _passwordController.text;
-                          //verificationLogin(emailLogin: emailLogin, passwordLogin: passwordLogin );
-                          Navigator.push(context, MaterialPageRoute(builder: (context){
-                            return CardapioScreen(); 
-                          }));
-
+                          if (await verificationLogin(emailLogin: emailLogin, passwordLogin: passwordLogin)) {
+                            Navigator.push(context, MaterialPageRoute(builder: (context) {
+                              return CardapioScreen();
+                            }));
+                          }else{_showFailDialog(context);}
+                          
                         },
                       ),
                     ),
@@ -110,3 +113,12 @@ class _LoginScreenState extends State<LoginScreen> {
   }
 }
 
+
+void _showFailDialog(BuildContext context){
+  showDialog(
+    context: context,
+    builder: (contextDialog){
+      return FaildDialog();
+    }
+  );
+}
